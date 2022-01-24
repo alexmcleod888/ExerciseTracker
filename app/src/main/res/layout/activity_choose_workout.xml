@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ChooseWorkoutActivity">
+
+    <Button
+        android:id="@+id/pullBtn"
+        android:layout_width="170dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="60dp"
+        android:text="PULL"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/chooseTitle" />
+
+    <Button
+        android:id="@+id/pushBtn"
+        android:layout_width="170dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="32dp"
+        android:text="PUSH"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pullBtn" />
+
+    <Button
+        android:id="@+id/legsBtn"
+        android:layout_width="170dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="32dp"
+        android:text="LEGS"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pushBtn" />
+
+    <Button
+        android:id="@+id/otherBtn"
+        android:layout_width="180dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="32dp"
+        android:text="OTHER"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/legsBtn" />
+
+    <TextView
+        android:id="@+id/chooseTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Choose Workout"
+        android:textSize="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,99 @@
+<resources>
+    <string name="app_name">ExerciseTracker</string>
+
+    <string-array name="pull_exercises">
+        <item></item>
+        <item>Pull-Up</item>
+        <item>Bent Over Row</item>
+        <item>Cable Pullover</item>
+        <item>Seated\nCable Row</item>
+        <item>SA Curl</item>
+        <item>EZ Bar Curl</item>
+        <item>Lat Pulldown</item>
+        <item>Chest\nSupported Row</item>
+        <item>Rope Facepull</item>
+        <item>Reverse\nPec Deck</item>
+        <item>Incline\nDumbbell Curl</item>
+        <item>Shrug</item>
+        <item>DBCurls</item>
+    </string-array>
+
+    <string-array name="push_exercises">
+        <item></item>
+        <item>Bench Press</item>
+        <item>SA Alternate\nShoulder Press</item>
+        <item>Dips</item>
+        <item>Incline Press</item>
+        <item>Chest Flies</item>
+        <item>Triceps Extension</item>
+        <item>Cable Lateral Raise</item>
+        <item>Cable Triceps Kickback</item>
+        <item>Overhead Press</item>
+        <item>Close-grip Bench Press</item>
+        <item>Pec Deck</item>
+        <item>Overhead Triceps ext</item>
+        <item>Lateral Raise</item>
+        <item>Chest Press</item>
+    </string-array>
+
+    <string-array name="leg_exercises">
+        <item></item>
+        <item>Squats</item>
+        <item>Romanian Deadlifts</item>
+        <item>Leg Press</item>
+        <item>Seated Calf Raises</item>
+        <item>Eccentric Leg Extensions</item>
+        <item>Standing Calf Raises</item>
+        <item>Pronated EZ bar curls</item>
+        <item>Deadlifts</item>
+        <item>Goblet Squats</item>
+        <item>Hip thrusts</item>
+        <item>Seated Leg Curls</item>
+        <item>Forearm Curl</item>
+        <item>Forearm Extensions</item>
+    </string-array>
+
+    <string-array name="all_exercises">
+        <item></item>
+        <item>Pull-Up</item>
+        <item>Bent Over Row</item>
+        <item>Cable Pullover</item>
+        <item>Seated\nCable Row</item>
+        <item>SA Curl</item>
+        <item>EZ Bar Curl</item>
+        <item>Lat Pulldown</item>
+        <item>Chest\nSupported Row</item>
+        <item>Rope Facepull</item>
+        <item>Reverse\nPec Deck</item>
+        <item>Incline\nDumbbell Curl</item>
+        <item>Shrug</item>
+        <item>DBCurls</item>
+        <item>Bench Press</item>
+        <item>SA Alternate\nShoulder Press</item>
+        <item>Dips</item>
+        <item>Incline Press</item>
+        <item>Chest Flies</item>
+        <item>Triceps Extension</item>
+        <item>Cable Lateral Raise</item>
+        <item>Cable Triceps Kickback</item>
+        <item>Overhead Press</item>
+        <item>Close-grip Bench Press</item>
+        <item>Pec Deck</item>
+        <item>Overhead Triceps ext</item>
+        <item>Lateral Raise</item>
+        <item>Chest Press</item>
+        <item>Squats</item>
+        <item>Romanian Deadlifts</item>
+        <item>Leg Press</item>
+        <item>Seated Calf Raises</item>
+        <item>Eccentric Leg Extensions</item>
+        <item>Standing Calf Raises</item>
+        <item>Pronated EZ bar curls</item>
+        <item>Deadlifts</item>
+        <item>Goblet Squats</item>
+        <item>Hip thrusts</item>
+        <item>Seated Leg Curls</item>
+        <item>Forearm Curl</item>
+        <item>Forearm Extensions</item>
+    </string-array>
+</resources>
