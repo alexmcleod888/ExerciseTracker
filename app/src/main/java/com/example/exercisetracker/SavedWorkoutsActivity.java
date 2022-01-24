@@ -72,6 +72,7 @@ public class SavedWorkoutsActivity extends AppCompatActivity {
                 }
                 //store workoutlist in list of workoutViews
                 workoutViewList.add(new WorkoutView(workoutName, timeCreated, exerciseList));
+                //hello im alex
             }
         }
     }
