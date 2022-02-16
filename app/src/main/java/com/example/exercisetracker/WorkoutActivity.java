@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,18 +16,17 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class WorkoutActivity extends AppCompatActivity {
 
     private ArrayList<Exercise> exerciseList;
     private String[] allExerciseStrings;
+    private String defaultName;
 
     //time
     private String currentTime;
     private long timeId;
 
-    private RecyclerView recyclerView;
 
     private FloatingActionButton addExerciseBtn;
     private FloatingActionButton minusExerciseBtn;
@@ -43,6 +41,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
     DatabaseHelper workoutDb;
 
+    private RecyclerView recyclerView;
     private RecyclerView.Adapter myAdapter;
     private RecyclerView.LayoutManager myLayoutManager;
     private static final int VERTICAL_ITEM_SPACE = 20;
@@ -68,6 +67,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         allExerciseStrings = intent.getStringArrayExtra("exerciseStrings");
+        defaultName = intent.getStringExtra("name");
 
         exerciseList.add(new Exercise(allExerciseStrings, 0, 0, 0.0, ""));
 
@@ -86,6 +86,7 @@ public class WorkoutActivity extends AppCompatActivity {
         stopwatch.startStopwatch();
 
 
+        nameEditText.setText(defaultName);
         currentTimeTextView.setText(currentTime);
 
 
@@ -147,46 +148,47 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 String[] exerciseStrings = new String[5];
                 String name = new String(nameEditText.getText().toString());
-                for(int i = 0; i < exerciseList.size(); i++)
+                if(name.length() > 8)
                 {
-                    Exercise currentExercise = exerciseList.get(i);
-
-                    //gets the selected exercise from spinner
-                   /* MyAdapter.MyViewHolder holder = (MyAdapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
-                    String selectedExercise = new String(holder.getSelectedSpinnerItem());
-                    System.out.println(selectedExercise);
-*/
-
-                    exerciseStrings[i] = currentExercise.getSelectedExercise() + ',' + currentExercise.getSets() + ',' + currentExercise.getReps() + ',' + currentExercise.getWeight();
-
+                    Toast.makeText(WorkoutActivity.this, "Name must be less then 8 characters. workout was not saved", Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    for (int i = 0; i < exerciseList.size(); i++) {
+                        Exercise currentExercise = exerciseList.get(i);
 
-                for(int i = 4; i > exerciseList.size() - 1; i-- )
-                {
-                    exerciseStrings[i] = "empty";
-                }
+                        //gets the selected exercise from spinner
+                       /* MyAdapter.MyViewHolder holder = (MyAdapter.MyViewHolder) recyclerView.findViewHolderForAdapterPosition(i);
+                        String selectedExercise = new String(holder.getSelectedSpinnerItem());
+                        System.out.println(selectedExercise);
+    */
 
-                boolean isInserted = workoutDb.insertWorkoutData(name, timeId, exerciseStrings[0],
-                        exerciseStrings[1], exerciseStrings[2], exerciseStrings[3], exerciseStrings[4]);
+                        exerciseStrings[i] = currentExercise.getSelectedExercise() + ',' + currentExercise.getSets() + ',' + currentExercise.getReps() + ',' + currentExercise.getWeight();
 
-                if(isInserted == true)
-                {
-                    System.out.println(name);
-                    System.out.println(timeId);
-                    System.out.println(exerciseStrings[0]);
-                    System.out.println(exerciseStrings[1]);
-                    System.out.println(exerciseStrings[2]);
-                    System.out.println(exerciseStrings[3]);
-                    System.out.println(exerciseStrings[4]);
-                    Toast.makeText(WorkoutActivity.this, "workout saved", Toast.LENGTH_LONG).show();
-                    finish();
+                    }
 
-                }
-                else
-                {
-                    Toast.makeText(WorkoutActivity.this, "workout was not saved", Toast.LENGTH_SHORT).show();
-                    //finishActivity(RESULT_OK);
-                    finish();
+                    for (int i = 4; i > exerciseList.size() - 1; i--) {
+                        exerciseStrings[i] = "empty";
+                    }
+
+                    boolean isInserted = workoutDb.insertWorkoutData(name, timeId, exerciseStrings[0],
+                            exerciseStrings[1], exerciseStrings[2], exerciseStrings[3], exerciseStrings[4]);
+
+                    if (isInserted == true) {
+                        System.out.println(name);
+                        System.out.println(timeId);
+                        System.out.println(exerciseStrings[0]);
+                        System.out.println(exerciseStrings[1]);
+                        System.out.println(exerciseStrings[2]);
+                        System.out.println(exerciseStrings[3]);
+                        System.out.println(exerciseStrings[4]);
+                        Toast.makeText(WorkoutActivity.this, "workout saved", Toast.LENGTH_LONG).show();
+                        finish();
+
+                    } else {
+                        Toast.makeText(WorkoutActivity.this, "workout was not saved", Toast.LENGTH_SHORT).show();
+                        //finishActivity(RESULT_OK);
+                        finish();
+                    }
                 }
             }
         });
@@ -223,7 +225,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //numExercises = 0;
         myLayoutManager = new LinearLayoutManager(this);
-        myAdapter = new MyAdapter(exerciseList, this);
+        myAdapter = new MyExercisesAdapter(exerciseList, this);
         //set spacing between items in recycler view
         recyclerView.addItemDecoration(new VerticalSpaceItemDecoration(VERTICAL_ITEM_SPACE));
         recyclerView.setLayoutManager(myLayoutManager);

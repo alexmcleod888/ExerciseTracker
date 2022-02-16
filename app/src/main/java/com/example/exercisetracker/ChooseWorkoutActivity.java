@@ -42,6 +42,7 @@ public class ChooseWorkoutActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ChooseWorkoutActivity.this, WorkoutActivity.class);
                 intent.putExtra("exerciseStrings", pullExerciseStrings);
+                intent.putExtra("name", "PULL");
                 startActivity(intent);
                 finish();
             }
@@ -58,6 +59,7 @@ public class ChooseWorkoutActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ChooseWorkoutActivity.this, WorkoutActivity.class);
                 intent.putExtra("exerciseStrings", pushExerciseStrings);
+                intent.putExtra("name", "PUSH");
                 startActivity(intent);
                 finish();
             }
@@ -74,6 +76,7 @@ public class ChooseWorkoutActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ChooseWorkoutActivity.this, WorkoutActivity.class);
                 intent.putExtra("exerciseStrings", legExerciseStrings);
+                intent.putExtra("name", "LEGS");
                 startActivity(intent);
                 finish();
             }
@@ -90,6 +93,7 @@ public class ChooseWorkoutActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ChooseWorkoutActivity.this, WorkoutActivity.class);
                 intent.putExtra("exerciseStrings", allExerciseStrings);
+                intent.putExtra("name", "OTHER");
                 startActivity(intent);
                 finish();
             }

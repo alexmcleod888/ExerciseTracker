@@ -15,15 +15,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
+public class MyExercisesAdapter extends RecyclerView.Adapter<MyExercisesAdapter.MyViewHolder> {
 
     private ArrayList<Exercise> exercisesList;
     private Context context;
     private int count;
 
-    public MyAdapter(ArrayList<Exercise> newExerciseList, Context ct) {
+    public MyExercisesAdapter(ArrayList<Exercise> newExerciseList, Context ct) {
         exercisesList = newExerciseList;
         context = ct;
     }
@@ -31,14 +30,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull  ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.my_row, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.exercise_row, parent, false);
         MyViewHolder evh = new MyViewHolder(v);
         return evh;
 
     }
 
     @Override
-    public void onBindViewHolder(@NonNull MyAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull MyExercisesAdapter.MyViewHolder holder, int position) {
 
         Exercise currentExercise = exercisesList.get(position);
 
