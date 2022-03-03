@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.exercisetracker.loadworkout.SavedWorkoutsActivity;
+import com.example.exercisetracker.newworkout.ChooseWorkoutActivity;
+
 public class MainActivity extends AppCompatActivity {
 
 

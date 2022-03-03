@@ -1,4 +1,4 @@
-package com.example.exercisetracker;
+package com.example.exercisetracker.newworkout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -12,6 +12,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.exercisetracker.DatabaseHelper;
+import com.example.exercisetracker.R;
+import com.example.exercisetracker.loadworkout.VerticalSpaceItemDecoration;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.text.SimpleDateFormat;

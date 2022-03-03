@@ -1,17 +1,17 @@
-package com.example.exercisetracker;
+package com.example.exercisetracker.loadworkout;
 
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.exercisetracker.newworkout.Exercise;
+import com.example.exercisetracker.R;
 
 import java.util.ArrayList;
 
@@ -46,6 +46,13 @@ public class MyWorkoutViewAdapter extends RecyclerView.Adapter<MyWorkoutViewAdap
         holder.name.setText(currentWorkout.getName());
         holder.date.setText(currentWorkout.getTime());
         holder.exerciseList = currentWorkout.getExerciseList();
+
+        holder.editBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //switch to edit activity
+            }
+        });
     }
 
     @Override

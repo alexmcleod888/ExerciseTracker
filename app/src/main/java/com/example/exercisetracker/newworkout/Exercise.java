@@ -1,4 +1,4 @@
-package com.example.exercisetracker;
+package com.example.exercisetracker.newworkout;
 
 import java.util.ArrayList;
 import java.util.List;

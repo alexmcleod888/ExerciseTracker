@@ -1,4 +1,6 @@
-package com.example.exercisetracker;
+package com.example.exercisetracker.loadworkout;
+
+import com.example.exercisetracker.newworkout.Exercise;
 
 import java.util.ArrayList;
 

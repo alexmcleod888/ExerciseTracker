@@ -1,4 +1,4 @@
-package com.example.exercisetracker;
+package com.example.exercisetracker.newworkout;
 
 import android.content.Context;
 import android.text.Editable;
@@ -13,6 +13,8 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.exercisetracker.R;
 
 import java.util.ArrayList;
 
