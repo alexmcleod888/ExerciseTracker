@@ -13,12 +13,16 @@ import android.widget.Toast;
 import com.example.exercisetracker.DatabaseHelper;
 import com.example.exercisetracker.newworkout.Exercise;
 import com.example.exercisetracker.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class SavedWorkoutsActivity extends AppCompatActivity {
+public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMenu.ExampleDialogListener {
 
     /*private ArrayList<String> nameList;
     private ArrayList<String> timeList;*/
@@ -34,6 +38,11 @@ public class SavedWorkoutsActivity extends AppCompatActivity {
 
     private Button nextBtn;
     private Button prevBtn;
+    private Button showAllBtn;
+    private FloatingActionButton searchBtn;
+
+    //if we are showing all workout or searching specific
+    private Boolean showAll = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +51,8 @@ public class SavedWorkoutsActivity extends AppCompatActivity {
 
         nextBtn = (Button) findViewById(R.id.nextButton);
         prevBtn = (Button) findViewById(R.id.prevButton);
+        showAllBtn = (Button) findViewById(R.id.showAllBtn);
+        searchBtn = (FloatingActionButton) findViewById(R.id.searchBtn);
 
         firstItemIndex = 0;
 
@@ -49,10 +60,13 @@ public class SavedWorkoutsActivity extends AppCompatActivity {
         workoutViewList = new ArrayList<WorkoutView>();
         workoutDb = new DatabaseHelper(this);
         //load workouts from database in workoutView objects
-        loadExercises();
-        //create recycler view with workoutView objects
-        //createRecyclerView();
-        createView();
+
+        if(showAll == true) {
+            loadExercises();
+            //create recycler view with workoutView objects
+            //createRecyclerView();
+            createView();
+        }
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +91,28 @@ public class SavedWorkoutsActivity extends AppCompatActivity {
                     firstItemIndex = firstItemIndex - 5;
                     setNewWorkoutList();
                 }
+            }
+        });
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openSearchMenu();
+            }
+        });
+
+        showAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(showAll == false) {
+                    loadExercises();
+                    //create recycler view with workoutView objects
+                    //createRecyclerView();
+                    createView();
+                    showAll = true;
+                }
+
+
             }
         });
 
@@ -136,6 +172,8 @@ public class SavedWorkoutsActivity extends AppCompatActivity {
                 //hello im alex
                 //test 2
             }
+
+            Collections.reverse(workoutViewList);
 
 
         }
@@ -201,5 +239,48 @@ public class SavedWorkoutsActivity extends AppCompatActivity {
         }
         ((MyWorkoutViewAdapter) myAdapter).setWorkoutList(temporaryList);
         myAdapter.notifyDataSetChanged();
+    }
+
+    public void openSearchMenu()
+    {
+        SearchMenu menu = new SearchMenu();
+        menu.show(getSupportFragmentManager(), "search menu");
+    }
+
+    //purpose:handles text input from search menu
+    @Override
+    public void search(String date)
+    {
+        String regex;
+
+        regex = "^[0-3][0-9]/[0-3][0-9]/(?:[0-9][0-9])?[0-9][0-9]$";
+
+        Pattern pattern = Pattern.compile(regex);
+
+        Matcher matcher = pattern.matcher(date);
+
+        if(matcher.matches() == true) {
+            searchWorkoutList(date);
+            createView();
+        }
+        else
+        {
+            Toast.makeText(this, "incorrect input", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    //when a search is made and a new list is required
+    public void searchWorkoutList(String date)
+    {
+        ArrayList<WorkoutView> newWorkoutViewList = new ArrayList<WorkoutView>();
+        for(WorkoutView var : workoutViewList)
+        {
+            if(var.getTime().equals(date))
+            {
+                newWorkoutViewList.add(var);
+            }
+        }
+        workoutViewList = newWorkoutViewList; //set new list with the searched items
+        showAll = false; //set it to not being the first time loaded1
     }
 }
