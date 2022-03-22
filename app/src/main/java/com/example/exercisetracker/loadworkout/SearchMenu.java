@@ -1,6 +1,7 @@
 package com.example.exercisetracker.loadworkout;
 
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,16 +9,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDialogFragment;
+import androidx.fragment.app.DialogFragment;
 
 import com.example.exercisetracker.R;
 
+import java.text.DateFormat;
+import java.util.Calendar;
+
 public class SearchMenu extends AppCompatDialogFragment {
     private EditText editTextDate;
-    private Button showAllBtn;
+    private Button selectDateBtn;
     private ExampleDialogListener listener;
 
 
@@ -32,6 +38,7 @@ public class SearchMenu extends AppCompatDialogFragment {
         View view = inflater.inflate(R.layout.layout_search, null);
 
         editTextDate = view.findViewById(R.id.dateSearch);
+        selectDateBtn = view.findViewById(R.id.selectDateBtn);
 
         builder.setView(view);
         builder.setTitle("Search");
@@ -46,6 +53,14 @@ public class SearchMenu extends AppCompatDialogFragment {
             public void onClick(DialogInterface dialogInterface, int i) {
                 String date = editTextDate.getText().toString();
                 listener.search(date);
+            }
+        });
+
+        selectDateBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DialogFragment datePicker = new DatePickerFragment();
+                datePicker.show(getActivity().getSupportFragmentManager(), "date picker");
             }
         });
 
@@ -66,10 +81,12 @@ public class SearchMenu extends AppCompatDialogFragment {
             throw new ClassCastException(context.toString() +
                     "Must implement ExampleDialogueListener");
         }
+    }
 
-
-
-
+    //purpose:used to set the date when the date picker dialog is used
+    public void setCurrentDate(String currentDate)
+    {
+        editTextDate.setText(currentDate);
     }
 
     public interface ExampleDialogListener

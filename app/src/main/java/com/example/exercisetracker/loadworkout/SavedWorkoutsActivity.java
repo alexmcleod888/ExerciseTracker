@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.DatePickerDialog;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.Toast;
 
 import com.example.exercisetracker.DatabaseHelper;
@@ -15,18 +17,22 @@ import com.example.exercisetracker.newworkout.Exercise;
 import com.example.exercisetracker.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMenu.ExampleDialogListener {
+public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMenu.ExampleDialogListener, DatePickerDialog.OnDateSetListener{
 
     /*private ArrayList<String> nameList;
     private ArrayList<String> timeList;*/
-    private ArrayList<WorkoutView> workoutViewList;
+    private ArrayList<WorkoutView> entireWorkoutViewList;
+    private ArrayList<WorkoutView> currentWorkoutViewList;
     private DatabaseHelper workoutDb;
 
     private RecyclerView recyclerView;
@@ -40,6 +46,8 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
     private Button prevBtn;
     private Button showAllBtn;
     private FloatingActionButton searchBtn;
+
+    private SearchMenu searchMenuFragment;
 
     //if we are showing all workout or searching specific
     private Boolean showAll = true;
@@ -57,22 +65,22 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
         firstItemIndex = 0;
 
         //load workouts from database into workoutView objects
-        workoutViewList = new ArrayList<WorkoutView>();
+        entireWorkoutViewList = new ArrayList<WorkoutView>();
         workoutDb = new DatabaseHelper(this);
         //load workouts from database in workoutView objects
 
-        if(showAll == true) {
-            loadExercises();
-            //create recycler view with workoutView objects
-            //createRecyclerView();
-            createView();
-        }
+        //if(showAll == true) {
+        currentWorkoutViewList = entireWorkoutViewList;
+       // }
+
+        loadExercises();
+        buildRecyclerView();
 
         nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //go to next page if there is more workouts
-                if(firstItemIndex + 5 < workoutViewList.size()) {
+                if(firstItemIndex + 5 < currentWorkoutViewList.size()) {
                     //Intent intent = new Intent(SavedWorkoutsActivity.this, SavedWorkoutsActivity.class);
                     //intent.putExtra("firstItemIndex", firstItemIndex + 5);
                     firstItemIndex = firstItemIndex + 5;
@@ -101,14 +109,17 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
             }
         });
 
+        //purpose: shows the entire list of workouts
         showAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(showAll == false) {
-                    loadExercises();
+                    //loadExercises();
                     //create recycler view with workoutView objects
                     //createRecyclerView();
-                    createView();
+                    firstItemIndex = 0;
+                    currentWorkoutViewList = entireWorkoutViewList;
+                    setNewWorkoutList();
                     showAll = true;
                 }
 
@@ -118,6 +129,7 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
 
     }
 
+    //purpose: loads all the workout views from the database
     public void loadExercises()
     {
         Cursor res = workoutDb.getData();
@@ -168,22 +180,17 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
                     }
                 }
                 //store workoutlist in list of workoutViews
-                workoutViewList.add(new WorkoutView(workoutName, timeCreated, exerciseList));
-                //hello im alex
-                //test 2
+                entireWorkoutViewList.add(new WorkoutView(workoutName, timeCreated, exerciseList));
+
             }
 
-            Collections.reverse(workoutViewList);
+            Collections.reverse(entireWorkoutViewList);
 
 
         }
     }
 
-    public void createView()
-    {
-        buildRecyclerView();
-    }
-
+    //purpose: creates the recycler view the first time the activity is called
     public void buildRecyclerView() {
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -196,9 +203,9 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
         ArrayList<WorkoutView> temporaryList = new ArrayList<WorkoutView>();
 
         //check if there is more then 5 items
-        if(workoutViewList.size() < firstItemIndex + 5)
+        if(currentWorkoutViewList.size() < firstItemIndex + 5)
         {
-            lastItem = workoutViewList.size();
+            lastItem = currentWorkoutViewList.size();
         }
         else
         {
@@ -208,7 +215,7 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
         //get the first five workout views from the first index
         for(int i = firstItemIndex; i < lastItem; i++)
         {
-            temporaryList.add(workoutViewList.get(i));
+            temporaryList.add(currentWorkoutViewList.get(i));
         }
         myAdapter = new MyWorkoutViewAdapter(temporaryList, this);
         //set spacing between items in recycler view
@@ -217,15 +224,16 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
         recyclerView.setAdapter(myAdapter);
     }
 
+    //purpose: called when a new set of workout views are loaded into the recyclerview
     public void setNewWorkoutList()
     {
         ArrayList<WorkoutView> temporaryList = new ArrayList<WorkoutView>();
         int lastItem;
 
         //check if there is more then 5 items
-        if(workoutViewList.size() < firstItemIndex + 5)
+        if(currentWorkoutViewList.size() < firstItemIndex + 5)
         {
-            lastItem = workoutViewList.size();
+            lastItem = currentWorkoutViewList.size();
         }
         else
         {
@@ -235,16 +243,18 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
         //get the first five workout views from the first index
         for(int i = firstItemIndex; i < lastItem; i++)
         {
-            temporaryList.add(workoutViewList.get(i));
+            temporaryList.add(currentWorkoutViewList.get(i));
         }
         ((MyWorkoutViewAdapter) myAdapter).setWorkoutList(temporaryList);
         myAdapter.notifyDataSetChanged();
     }
 
+    //pursuse: opens a pop up dialogue to search the workouts
     public void openSearchMenu()
     {
-        SearchMenu menu = new SearchMenu();
-        menu.show(getSupportFragmentManager(), "search menu");
+        searchMenuFragment = new SearchMenu();
+        searchMenuFragment.show(getSupportFragmentManager(), "search menu");
+
     }
 
     //purpose:handles text input from search menu
@@ -261,7 +271,8 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
 
         if(matcher.matches() == true) {
             searchWorkoutList(date);
-            createView();
+            firstItemIndex = 0;
+            setNewWorkoutList();
         }
         else
         {
@@ -273,14 +284,33 @@ public class SavedWorkoutsActivity extends AppCompatActivity implements SearchMe
     public void searchWorkoutList(String date)
     {
         ArrayList<WorkoutView> newWorkoutViewList = new ArrayList<WorkoutView>();
-        for(WorkoutView var : workoutViewList)
+        for(WorkoutView var : entireWorkoutViewList)
         {
             if(var.getTime().equals(date))
             {
                 newWorkoutViewList.add(var);
             }
         }
-        workoutViewList = newWorkoutViewList; //set new list with the searched items
+        currentWorkoutViewList = newWorkoutViewList; //set new list with the searched items
         showAll = false; //set it to not being the first time loaded1
     }
+
+    //purpose: called when the DatePickerFragment is used to select a date and sends date to the
+    //search menu
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String currentSearchDate;
+
+        Calendar c = Calendar.getInstance();
+        c.set(Calendar.YEAR, year);
+        c.set(Calendar.MONTH, month);
+        c.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+
+        currentSearchDate = format1.format(c.getTime());
+
+        searchMenuFragment.setCurrentDate(currentSearchDate);
+    }
+
 }

@@ -1,14 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="16dp">
 
+
+    <TextView
+        android:id="@+id/dateSearchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:text="Date:"
+        android:textSize="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/dateSearch"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="day/month/year (e.g 02/03/2021)" />
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:hint="day/month/year (e.g dd/mm/yyyy)"
+        android:maxLength="10"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@+id/dateSearchText"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</RelativeLayout>
+    <Button
+        android:id="@+id/selectDateBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:text="select date"
+        android:textSize="15dp"
+        app:layout_constraintStart_toEndOf="@+id/dateSearchText"
+        app:layout_constraintTop_toBottomOf="@+id/dateSearch" />
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
